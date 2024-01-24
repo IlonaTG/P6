@@ -1,4 +1,4 @@
-
+  // Ajout du gestionnaire d'événement pour le formulaire de connexion
 document.getElementById("login-form").addEventListener("submit", function (e) {
     e.preventDefault();
     identification();
@@ -7,7 +7,6 @@ document.getElementById("login-form").addEventListener("submit", function (e) {
   async function identification() {
     const mail = document.getElementById("email").value;
     const password = document.getElementById("password").value;
-  
     try {
         //On envoie la requete POST à l'API
       const response = await fetch("http://localhost:5678/api/users/login", {
@@ -28,9 +27,10 @@ document.getElementById("login-form").addEventListener("submit", function (e) {
         //Enregistrement du token dans le local storage//
         localStorage.setItem("token", userData.token);
         localStorage.setItem("login", true);
-        //Si l'indentification est réussie la page d'acceuil s'affiche
+
         window.location.href = "./index.html";
-      } 
+        } 
+        
       //Si l'identification est incorrect une alerte s'affiche//
       else {
         localStorage.setItem("token", undefined);
@@ -44,6 +44,8 @@ document.getElementById("login-form").addEventListener("submit", function (e) {
       console.error("Error message", e.message);
     }
   }
+
+ 
 
 
   

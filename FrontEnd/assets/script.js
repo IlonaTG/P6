@@ -1,3 +1,5 @@
+
+
 const gallery = document.querySelector(".gallery");
 
 // Appel à l'API avec fetch
@@ -47,7 +49,7 @@ async function afficherToutesLesImages() {
       });
   });
 }
-      
+afficherToutesLesImages();
 
 // Fonction de tri par catégorie
 async function trierParCategorie(categorie) {
@@ -77,6 +79,7 @@ async function trierParCategorie(categorie) {
       });
     });
 }
+trierParCategorie();
 
 // Ajouter des écouteurs d'événements pour les boutons de tri
 const tousBtn = document.createElement("button");
@@ -106,6 +109,7 @@ const modif = document.querySelector(".mesProjets-changing");
 const container = document.querySelector(".edition-container");
 const filtres = document.querySelector(".filters");
 
+
 function editionActive() {
   if (localStorage.login) {
     (log.innerText = "logout"), (banner.style = "display:flex;");
@@ -122,9 +126,18 @@ log.addEventListener("click", () => {
   localStorage.removeItem("login");
   localStorage.removeItem("token");
   log.innerText = "login";
-  localStorage.clear;
-});
+  localStorage.clear();
+  }
+);
 
+// Stocker les informations d'authentification et rediriger
+
+const auth = JSON.parse(localStorage.getItem('auth'));
+if (auth && auth.token) {
+  window.location = "index.html";
+} 
+
+      
 
 // Sélection du lien "Modifier"
 const modifierLink = document.querySelector('.mesProjets-changing');
@@ -140,6 +153,8 @@ modifierLink.addEventListener('click', () => {
     afficherToutesLesImages(); // Afficher les images dans le modal (fonction déjà définie)
 });
 
+
+
 // Ajout d'un écouteur d'événements pour fermer le modal en cliquant sur la croix
 closeModalBtn.addEventListener('click', () => {
     modalContainer.style.display = 'none'; // Cacher le modal
@@ -147,7 +162,7 @@ closeModalBtn.addEventListener('click', () => {
 
 
 // Fonction pour afficher toutes les images dans le modal
-async function afficherToutesLesImages() {
+async function afficherToutesLesImagesModal() {
     imageContainer.innerHTML = ''; // Effacer le contenu actuel du modal
 
     try {
@@ -174,7 +189,7 @@ async function afficherToutesLesImages() {
       console.error('Une erreur s\'est produite :', error);
     }
   }
-  
+  afficherToutesLesImagesModal();
 
 
   async function deleteWorks(workId) {
@@ -379,6 +394,6 @@ validateBtn.addEventListener('click', async function(event) {
       console.log('Tous les champs obligatoires sont remplis !');
   } catch (error) {
       console.error('Une erreur s\'est produite :', error);
-  };
-};
+  }
+}
 });
