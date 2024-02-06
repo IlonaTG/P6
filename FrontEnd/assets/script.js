@@ -333,67 +333,59 @@ uploadButton.addEventListener('click', async () => {
 });
    
 
+const validateButton = document.querySelector('.validate-btn');
 
-const validateBtn = document.querySelector('.validate-btn');
+validateButton.addEventListener('click', async () => {
+  try {
+    // Récupérer l'image ajoutée dans l'aperçu
+    const imagePreview = document.querySelector('.image-preview img');
+    if (!imagePreview) {
+      alert('Veuillez d\'abord ajouter une image.');
+      return;
+    }
+    // Récupérer le titre et la catégorie de l'image
+    const photoTitle = document.querySelector('.photo-title').value;
+    const photoCategory = document.querySelector('.photo-category').value;
 
-validateBtn.addEventListener('click', async function(event) {
-  event.preventDefault(); // Empêcher la soumission du formulaire par défaut
+    // Créer un objet FormData et y ajouter les données
+    const formData = new FormData();
+    formData.append('photo', imagePreview.src); // Ajouter le chemin de l'image à FormData
+    formData.append('title', photoTitle); // Ajouter le titre à FormData
+    formData.append('category', photoCategory); // Ajouter la catégorie à FormData
 
-    const titleInput = document.querySelector('.photo-title');
-    const categoryInput = document.querySelector('.photo-category');
-    const imagePreview = document.querySelector('.image-preview');
-  
+    // Récupérer le token d'authentification
+    const token = localStorage.getItem('token');
 
-    // Vérifier si les champs obligatoires sont vides
-    if (titleInput.value.trim() === '' || categoryInput.value === '' || imagePreview.innerHTML === '') {
-        alert('Veuillez remplir tous les champs obligatoires: ajouter une photo, un titre et une catégory !');
-        titleInput.style.border = '1px solid red';
-        categoryInput.style.border = '1px solid red';
-    } else {
-      try {
-        const fileInput = document.getElementById('addPic');
-        const file = fileInput.files[0];
+    // Envoyer la requête POST au serveur avec les données de l'image
+    const response = await fetch('http://localhost:5678/api/works/', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+      },
+      body: formData,
+    });
 
-        const formData = new FormData();
-        formData.append('photo', file); // Ajouter le fichier à FormData
-        formData.append('title', titleInput.value); // Ajouter le titre à FormData
-        formData.append('category', categoryInput.value); // Ajouter la catégorie à FormData
+    if (response.ok) {
+      // Mettre à jour l'aperçu dans le premier modal
+  const imagePreviewFirstModal = document.querySelector('.modal-wrapper__first .image-container');
+  const newImage = document.createElement('img');
+  newImage.src = imagePreview.src; // Utilisez l'URL de l'image ajoutée
+  imagePreviewFirstModal.appendChild(newImage);
 
-        const token = localStorage.getItem('token'); // Récupérer le token depuis le localStorage
-
-        const response = await fetch('http://localhost:5678/api/works', {
-            method: 'POST',
-            headers: {
-                accept: 'application/json',
-                authorization: `Bearer ${token}`, // Utilisation de backticks pour la concaténation
-            },
-            body: formData,
-        });
-
-        if (response.ok) {
-          const newImageData = await response.json(); // Récupérer les données de la nouvelle image depuis la réponse
-          // Ajout de la nouvelle image à la galerie
-          const figure = document.createElement("figure");
-          const image = document.createElement("img");
-          image.src = newImageData.imageUrl; // Utilisation du chemin de l'image reçu depuis la réponse
-          const caption = document.createElement("figcaption");
-          caption.textContent = newImageData.title; // Utilisation du titre de l'image reçu depuis la réponse
-
-          figure.appendChild(image);
-          figure.appendChild(caption);
-          itemsContainer.appendChild(figure); // Ajout de la nouvelle image à la galerie
-      } else {
-        console.error('Erreur lors de l\'ajout de la photo à la galerie.');
-          const errorResponse = await response.json();
-          console.error('Contenu de la réponse en cas d\'erreur :', errorResponse);
-      }
-
-      titleInput.style.border = ''; // Réinitialiser la bordure du champ titleInput
-      categoryInput.style.border = ''; // Réinitialiser la bordure du champ categoryInput
-
-      console.log('Tous les champs obligatoires sont remplis !');
-  } catch (error) {
-      console.error('Une erreur s\'est produite :', error);
-  }
+  // Actualiser la galerie principale
+  afficherToutesLesImages();
+} else {
+  console.error('Erreur lors de l\'ajout de l\'image:', response.status);
+  // Gérer les erreurs d'ajout d'image, par exemple afficher un message d'erreur à l'utilisateur
 }
+
+    // Une fois l'opération terminée, vous pouvez fermer la deuxième modal et afficher la première modal
+    const firstModal = document.querySelector('.modal-wrapper__first');
+    const secondModal = document.querySelector('.modal-wrapper__second');
+    firstModal.style.display = 'flex'; // Afficher la première modal
+    secondModal.style.display = 'none'; // Cacher la deuxième modal
+    afficherToutesLesImagesModal(); // Actualiser la galerie avec la nouvelle image (si nécessaire)
+  } catch (error) {
+    console.error('Une erreur s\'est produite lors de la validation de l\'image :', error);
+  }
 });
