@@ -1,8 +1,9 @@
   // Ajout du gestionnaire d'événement pour le formulaire de connexion
-document.getElementById("login-form").addEventListener("submit", function (e) {
+  document.getElementById("login-form").addEventListener("submit", function (e) {
     e.preventDefault();
     identification();
   });
+  
   //Fonction qui se declenche au click du boutton//
   async function identification() {
     const mail = document.getElementById("email").value;
