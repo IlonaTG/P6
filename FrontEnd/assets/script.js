@@ -48,8 +48,7 @@ async function afficherToutesLesImages() {
       itemsContainer.appendChild(figure);
       });
   });
-}
-afficherToutesLesImages();
+};
 
 // Fonction de tri par catégorie
 async function trierParCategorie(categorie) {
@@ -102,6 +101,8 @@ hotelsBtn.textContent = "Hotels & restaurants";
 hotelsBtn.addEventListener("click", () => trierParCategorie("Hotels & restaurants"));
 document.querySelector(".filters").appendChild(hotelsBtn);
 
+
+
 //Les changement en mode logIn
 const log = document.querySelector(".log");
 const banner = document.querySelector(".edition-banner");
@@ -153,12 +154,13 @@ modifierLink.addEventListener('click', () => {
     afficherToutesLesImages(); // Afficher les images dans le modal (fonction déjà définie)
 });
 
-
-
 // Ajout d'un écouteur d'événements pour fermer le modal en cliquant sur la croix
 closeModalBtn.addEventListener('click', () => {
-    modalContainer.style.display = 'none'; // Cacher le modal
+  modalContainer.style.display = 'none'; // Cacher le modal
 });
+
+
+
 
 
 // Fonction pour afficher toutes les images dans le modal
@@ -230,7 +232,7 @@ const firstModal = document.querySelector(".modal-wrapper__first");
 const secondModal = document.querySelector(".modal-wrapper__second");
 const addPhotoButton = document.querySelector(".image-add__button");
 const arrowLeftIcon = document.querySelector(".fa-arrow-left");
-const imagePreview = document.querySelector('.image-preview');
+
 
 
 
@@ -256,8 +258,6 @@ arrowLeftIcon.addEventListener("click", function() {
       element.style.display = 'block';
     });
   }
-  
-
 });
 
 
@@ -275,13 +275,10 @@ window.addEventListener('click', fermerModal);
 
 
 
-
-
+const imagePreview = document.querySelector('.image-preview');
+const uploadElements = document.querySelectorAll('.fa-image, .upload-btn');
 // Fonction pour cacher les éléments lorsque l'aperçu de l'image est affiché
 function cacherElementsUpload() {
-  const imagePreview = document.querySelector('.image-preview');
-  const uploadElements = document.querySelectorAll('.fa-image, .upload-btn');
-  
   // Vérifier si l'aperçu de l'image est affiché
   if (imagePreview.innerHTML !== '') {
     uploadElements.forEach(element => {
@@ -296,19 +293,22 @@ function cacherElementsUpload() {
 
 
 const uploadButton = document.querySelector(".upload-btn");
-const imageUpload = document.querySelector('.image-upload');
 
+
+// Créer l'élément input de type file une seule fois en dehors des fonctions de gestionnaire d'événements
+const fileInput = document.createElement('input');
+fileInput.type = 'file';
+fileInput.accept = 'image/jpeg, image/png'; // Accepter seulement les fichiers JPEG et PNG
+fileInput.id = 'addPic';
+
+// Ajouter l'écouteur d'événements pour le bouton d'envoi
 uploadButton.addEventListener('click', async () => {
   try {
-    const fileInput = document.createElement('input');
-    fileInput.type = 'file';
-    fileInput.accept = 'image/jpeg, image/png'; // Accepter seulement les fichiers JPEG et PNG
-    fileInput.id = 'addPic';
-
+    // Ajouter l'écouteur d'événement pour le changement de fichier
     fileInput.addEventListener('change', async () => {
       const file = fileInput.files[0];
       const maxFileSize = 4 * 1024 * 1024; // Taille maximale en octets (4 Mo)
-      
+
       if (file.size > maxFileSize) {
         alert('La taille de l\'image dépasse 4 Mo. Veuillez sélectionner une image plus petite.');
         return; // Arrêter l'exécution si la taille dépasse la limite
@@ -321,70 +321,76 @@ uploadButton.addEventListener('click', async () => {
         image.src = reader.result;
         imagePreview.innerHTML = ''; // Effacer l'aperçu précédent
         imagePreview.appendChild(image); // Afficher l'aperçu de l'image
-      // Appeler la fonction pour cacher les éléments d'upload
-      cacherElementsUpload();
       };
       reader.readAsDataURL(file);
     });
+
     fileInput.click(); // Simuler un clic sur le fileInput pour ouvrir la boîte de dialogue de sélection de fichiers
   } catch (error) {
     console.error('Une erreur s\'est produite :', error);
   }
 });
-   
 
+// Récupérer le bouton de validation
 const validateButton = document.querySelector('.validate-btn');
 
+// Ajouter l'écouteur d'événements pour le bouton de validation
 validateButton.addEventListener('click', async () => {
+
   try {
-    // Récupérer l'image ajoutée dans l'aperçu
-    const imagePreview = document.querySelector('.image-preview img');
-    if (!imagePreview) {
+    // Récupérer le fichier à partir de l'élément input de type file
+    const file = fileInput.files[0];
+
+    if (!file) {
       alert('Veuillez d\'abord ajouter une image.');
       return;
     }
+
     // Récupérer le titre et la catégorie de l'image
     const photoTitle = document.querySelector('.photo-title').value;
     const photoCategory = document.querySelector('.photo-category').value;
 
     // Créer un objet FormData et y ajouter les données
     const formData = new FormData();
-    formData.append('photo', imagePreview.src); // Ajouter le chemin de l'image à FormData
-    formData.append('title', photoTitle); // Ajouter le titre à FormData
-    formData.append('category', photoCategory); // Ajouter la catégorie à FormData
+    formData.append("image", file); // Ajouter le fichier image à FormData
+    formData.append("title", photoTitle); // Ajouter le titre à FormData
+    formData.append("category", photoCategory); // Ajouter la catégorie à FormData
 
     // Récupérer le token d'authentification
     const token = localStorage.getItem('token');
 
     // Envoyer la requête POST au serveur avec les données de l'image
-    const response = await fetch('http://localhost:5678/api/works/', {
+    const response = await fetch('http://localhost:5678/api/works', {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${token}`,
+        accept: "application/json",
+        Authorization: `Bearer ${token}`,
       },
       body: formData,
     });
 
     if (response.ok) {
-      // Mettre à jour l'aperçu dans le premier modal
-  const imagePreviewFirstModal = document.querySelector('.modal-wrapper__first .image-container');
-  const newImage = document.createElement('img');
-  newImage.src = imagePreview.src; // Utilisez l'URL de l'image ajoutée
-  imagePreviewFirstModal.appendChild(newImage);
 
-  // Actualiser la galerie principale
-  afficherToutesLesImages();
-} else {
-  console.error('Erreur lors de l\'ajout de l\'image:', response.status);
-  // Gérer les erreurs d'ajout d'image, par exemple afficher un message d'erreur à l'utilisateur
-}
+
+      // Mettre à jour l'aperçu dans le premier modal
+      const imagePreviewFirstModal = document.querySelector('.modal-wrapper__first .image-container');
+      const newImage = document.createElement('img');
+      newImage.src = URL.createObjectURL(file); // Utilisez l'URL créée à partir du fichier
+      imagePreviewFirstModal.appendChild(newImage);
+
+      // Actualiser la galerie principale
+      afficherToutesLesImages();
+    } else {
+      console.error('Erreur lors de l\'ajout de l\'image:', response.status);
+      // Gérer les erreurs d'ajout d'image, par exemple afficher un message d'erreur à l'utilisateur
+    }
 
     // Une fois l'opération terminée, vous pouvez fermer la deuxième modal et afficher la première modal
     const firstModal = document.querySelector('.modal-wrapper__first');
     const secondModal = document.querySelector('.modal-wrapper__second');
     firstModal.style.display = 'flex'; // Afficher la première modal
     secondModal.style.display = 'none'; // Cacher la deuxième modal
-    afficherToutesLesImagesModal(); // Actualiser la galerie avec la nouvelle image (si nécessaire)
+    afficherToutesLesImagesModal(); // Actualiser la galerie avec la nouvelle image
   } catch (error) {
     console.error('Une erreur s\'est produite lors de la validation de l\'image :', error);
   }
