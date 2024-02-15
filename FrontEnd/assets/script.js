@@ -68,8 +68,8 @@ async function trierParCategorie(categorie) {
       elementsFiltres.forEach((element) => {
         const figure = document.createElement("figure");
         const image = document.createElement("img");
-        image.src = element.imageUrl;
         const caption = document.createElement("figcaption");
+        image.src = element.imageUrl;
         caption.textContent = element.title;
 
         figure.appendChild(image);
@@ -123,20 +123,22 @@ function editionActive() {
 }
 editionActive();
 
-log.addEventListener("click", () => {
+log.addEventListener("click", (e) => {
+  // Stocker les informations d'authentification et rediriger
+  const token = localStorage.getItem("token");
+  if (token) {
+    e.preventDefault();
+    window.location.reload();
+  }
+
   localStorage.removeItem("login");
   localStorage.removeItem("token");
   log.innerText = "login";
   localStorage.clear();
-  }
-);
+});
 
-// Stocker les informations d'authentification et rediriger
 
-const auth = JSON.parse(localStorage.getItem('auth'));
-if (auth && auth.token) {
-  window.location = "index.html";
-} 
+
 
       
 
@@ -145,7 +147,7 @@ const modifierLink = document.querySelector('.mesProjets-changing');
 
 // Sélection du modal et de ses éléments
 const modalContainer = document.getElementById('modal-container');
-const closeModalBtn = document.querySelector('.fa-xmark');
+const closeModalBtn = document.querySelectorAll('.fa-xmark');
 const imageContainer = document.querySelector('.image-container');
 
 // Ajout d'un écouteur d'événements pour ouvrir le modal au clic sur le lien "Modifier"
@@ -155,8 +157,10 @@ modifierLink.addEventListener('click', () => {
 });
 
 // Ajout d'un écouteur d'événements pour fermer le modal en cliquant sur la croix
-closeModalBtn.addEventListener('click', () => {
-  modalContainer.style.display = 'none'; // Cacher le modal
+closeModalBtn.forEach((btnClose) => {
+  btnClose.addEventListener("click", () => {
+    modalContainer.style.display = "none"; // Cacher le modal
+  });
 });
 
 
