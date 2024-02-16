@@ -313,7 +313,7 @@ align-items: center;
     margin-top: 3%;
 	background-color: white;
     width: 35%;
-    height: 75%;
+    height: 550px;
     display: flex;
 	margin-left: 33%;
     flex-direction: column;
@@ -401,7 +401,7 @@ align-items: center;
 	color: #306685;
 	position: absolute;
 	top: 110px;
-	left: 32%;
+	left: 28%;
 	padding: 8px 25px;
 	font-size: 14px;
 }
@@ -409,7 +409,7 @@ align-items: center;
 .image-upload p{
 	position: absolute;
 	top: 150px;
-	left: 42%;
+	left: 40%;
 	font-size: 10px;
 	font-weight: 400;
 	color: #444444;
@@ -500,3 +500,9 @@ padding: 10px;
   .input-newPicture{
 	visibility: hidden;
   }
+
+  /* Ajoutez cette classe pour appliquer le style de couleur rouge */
+.error {
+	border-color: red;
+  }
+  
