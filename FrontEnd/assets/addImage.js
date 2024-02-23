@@ -5,7 +5,7 @@ validateButton.addEventListener('click', async () => {
     // Récupérer le fichier à partir de l'élément input de type file
     const file = fileInput.files[0];
     if (!file) {
-      alert('Veuillez d\'abord ajouter une image.');
+      alert("Veuillez d\'abord ajouter une image.");
       return;
     }
     // Récupérer le titre et la catégorie de l'image
@@ -13,14 +13,14 @@ validateButton.addEventListener('click', async () => {
     const photoCategory = document.querySelector('.photo-category').value;
     // Vérifier si les champs titre et catégorie sont remplis
     if (!photoTitle.trim() || !photoCategory.trim()) {
-      alert('Le titre et la catégorie sont obligatoires. Veuillez les remplir!');
+      alert("Le titre et la catégorie sont obligatoires. Veuillez les remplir!");
       return;
     }
     // Créer un objet FormData et y ajouter les données
     const formData = new FormData();
-    formData.append("image", file); 
-    formData.append("title", photoTitle);
-    formData.append("category", photoCategory);
+    formData.append('image', file); 
+    formData.append('title', photoTitle);
+    formData.append('category', photoCategory);
    
     const token = localStorage.getItem('token');
 
@@ -28,7 +28,7 @@ validateButton.addEventListener('click', async () => {
     const response = await fetch('http://localhost:5678/api/works', {
       method: 'POST',
       headers: {
-        accept: "application/json",
+        accept: 'application/json',
         Authorization: `Bearer ${token}`,
       },
       body: formData,
@@ -42,7 +42,16 @@ validateButton.addEventListener('click', async () => {
       imagePreviewFirstModal.appendChild(newImage);
       document.querySelector('.photo-title').value = '';
       document.querySelector('.photo-category').value = '';
+
       afficherToutesLesImages();
+      afficherToutesLesImagesModal();
+      reinitialiserApercuImage();
+
+      if (imageUploadElements) {
+        imageUploadElements.forEach((element) => {
+          element.style.display = 'block';
+        });
+      }
     } else {
       console.error('Erreur lors de l\'ajout de l\'image:', response.status);
     }
