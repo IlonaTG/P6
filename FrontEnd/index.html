@@ -12,17 +12,17 @@
 	<link rel="stylesheet" href="./assets/style.css">
 </head>
 <body>
-	<section class="edition-banner">
+	<div class="edition-banner">
 		<div class="edition">
 			<i class="fa-regular fa-pen-to-square"></i>
 		  <p class="edition-text">Mode édition</p>
 		</div>
-	</section>
+	</div>
 	<header>
 		<h1>Sophie Bluel <span>Architecte d'intérieur</span></h1>
 		<nav>
 			<ul>
-				<li>projets</a></li>
+				<li>projets</li>
 				<li>contact</li>
 				<li><a class="log" href="./login.html">login</a></li>
 				<li><img src="./assets/icons/instagram.png" alt="Instagram"></li>
@@ -30,7 +30,7 @@
 		</nav>
 	</header>
 	<main>
-		<section id="introduction">
+		<div id="introduction">
 			<figure>
 				<img src="./assets/images/sophie-bluel.png" alt="">
 			</figure>
@@ -40,14 +40,16 @@
 				<p>Chaque projet sera étudié en commun, de façon à mettre en valeur les volumes, les matières et les couleurs dans le respect de l’esprit des lieux et le choix adapté des matériaux. Le suivi du chantier sera assuré dans le souci du détail, le respect du planning et du budget.</p>
 				<p>En cas de besoin, une équipe pluridisciplinaire peut-être constituée : architecte DPLG, décorateur(trice)</p>
 			</article>
-		</section>
+		</div>
 		<section id="portfolio">
+			<div class="edition-container__global">
 				<h2>Mes Projets</h2>
 				<div class="edition-container">
 				<a class="mesProjets-changing" href="#modal-container">
 					<i class="fa-regular fa-pen-to-square"></i>
 					<p class="changeText">modifier</p>
 				</a>
+				</div>
 			</div>
 			<div class="filters"></div>
 			<div class="gallery"></div>
@@ -75,9 +77,7 @@
 			<div class="image-add">
 				<button class="image-add__button">Ajouter une photo</button>
 			</div>
-			<div class="deleteGallery">
-				
-			</div>
+			<div class="deleteGallery"></div>
 		</div>
 		<div class="modal-wrapper__second">
 				<i class="fa-solid fa-arrow-left"></i>
@@ -86,23 +86,16 @@
 				<h3>Ajout photo</h3>
 			</div>
 			<div class="image-upload">
-				<input
-				type="file"
-				class="input-newPicture"
-				id="addPic"
-				name="addPic"
-				accept="jpeg/png"
-			/>
 				<div class="image-preview"></div>
 				<i class="fa-regular fa-image"></i>
 				<p>jpg, png : 4mo max</p>
 				<button class="upload-btn">+ Ajouter photo</button>
 			</div>
 			<div class="form-modal">
-				<label for="input-title">Titre</label>
+				<label id="input-title">Titre</label>
 				<input type="text" class="photo-title" placeholder="" required />
-				<label for="category" class="category">Catégorie</label>
-				<select class="photo-category" name="photo-category" value="Choisisez une categorie" required >
+				<label id="category" class="category">Catégorie</label>
+				<select id="photo-category" class="photo-category" name="photo-category"  required >
 					<option value="">Choisisez une catégorie</option>
 					<option value="1" class="categoryChoice">Objets</option>
 					<option value="2" class="categoryChoice">Appartements</option>
@@ -121,7 +114,7 @@
 			</ul>
 		</nav>
 	</footer>
-	<script src="assets/script.js"></script>
+	
 	<script src="assets/uploadImage.js"></script>
 	<script src="assets/addImage.js"></script>
 	<script src="assets/deleteImage.js"></script>
