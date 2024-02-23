@@ -13,7 +13,7 @@ uploadButton.addEventListener('click', async () => {
       const maxFileSize = 4 * 1024 * 1024;
 
       if (file.size > maxFileSize) {
-        alert('La taille de l\'image dépasse 4 Mo. Veuillez sélectionner une image plus petite.');
+        alert("La taille de l\'image dépasse 4 Mo. Veuillez sélectionner une image plus petite.");
         return;
       }
       // Afficher l'aperçu de l'image sélectionnée
