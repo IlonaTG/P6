@@ -9,6 +9,7 @@ modifierLink.addEventListener('click', () => {
     modalContainer.style.display = 'block'; 
     afficherToutesLesImages();
 });
+
 // Ouvrir le modal au clic sur Edition-banner
 editionBanner.addEventListener('click',() => {
   modalContainer.style.display = 'block'; 
@@ -46,10 +47,10 @@ async function afficherToutesLesImagesModal() {
 
 
 // Sélection de la première et de la deuxième modale
-const firstModal = document.querySelector(".modal-wrapper__first");
-const secondModal = document.querySelector(".modal-wrapper__second");
-const addPhotoButton = document.querySelector(".image-add__button");
-const arrowLeftIcon = document.querySelector(".fa-arrow-left");
+const firstModal = document.querySelector('.modal-wrapper__first');
+const secondModal = document.querySelector('.modal-wrapper__second');
+const addPhotoButton = document.querySelector('.image-add__button');
+const arrowLeftIcon = document.querySelector('.fa-arrow-left');
 const imageUploadElements = document.querySelectorAll('.fa-image, .upload-btn');
 const imagePreview = document.querySelector('.image-preview')
 
@@ -65,17 +66,17 @@ function afficherElementsUpload() {
 }
 
 // Écouteur d'événement pour ouvrir le deuxième modal et fermer le premier
-addPhotoButton.addEventListener("click", function() {
-  firstModal.style.display = "none";
-  secondModal.style.display = "flex";
+addPhotoButton.addEventListener('click', function() {
+  firstModal.style.display = 'none';
+  secondModal.style.display = 'flex';
 });
 
 // Écouteur d'événement pour revenir à la première modal en cliquant sur .fa-arrow-left
-arrowLeftIcon.addEventListener("click", function() {
-  secondModal.style.display = "none";
-  firstModal.style.display = "flex"; 
+arrowLeftIcon.addEventListener('click', function() {
+  secondModal.style.display = 'none';
+  firstModal.style.display = 'flex'; 
   // Réinitialiser l'aperçu de l'image
-  reinitialiserApercuImage()
+  reinitialiserApercuImage();
   // Réinitialiser les champs titre et catégorie
   document.querySelector('.photo-title').value = '';
   document.querySelector('.photo-category').value = '';
@@ -86,8 +87,6 @@ arrowLeftIcon.addEventListener("click", function() {
     });
   }
 });
-
-
 
 // Fonction pour fermer le modal en cliquant dehors de la modal
 function fermerModal(event) {
@@ -103,8 +102,8 @@ window.addEventListener('click', fermerModal);
 
 // Ajout d'un écouteur d'événements pour fermer le modal en cliquant sur la croix
 closeModalBtn.forEach((btnClose) => {
-btnClose.addEventListener("click", () => {
-modalContainer.style.display = "none";
+btnClose.addEventListener('click', () => {
+modalContainer.style.display = 'none';
 reinitialiserApercuImage(); 
 afficherElementsUpload(); 
 document.querySelector('.photo-title').value = '';
@@ -126,6 +125,8 @@ function cacherElementsUpload() {
     });
   }
 }
+
+
 
 
 
