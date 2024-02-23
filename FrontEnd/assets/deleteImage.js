@@ -3,9 +3,9 @@ async function deleteWorks(workId) {
     try {
       const token = localStorage.getItem('token');
       const response = await fetch(`http://localhost:5678/api/works/${workId}`, {
-        method: "DELETE",
+        method: 'DELETE',
         headers: {
-          accept: "*/*",
+          accept: '*/*',
           Authorization: `Bearer ${token}`,
         },
       });
@@ -19,6 +19,7 @@ async function deleteWorks(workId) {
     
         // Mettre à jour la galerie principale
         await afficherToutesLesImages();
+        afficherToutesLesImagesModal();
       } else {
         console.error("Erreur lors de la suppression de l'image");
       }
