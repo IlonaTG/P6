@@ -7,13 +7,13 @@ const editionBanner = document.querySelector('.edition-banner')
 // Ouvrir le modal au clic sur le lien "Modifier"
 modifierLink.addEventListener('click', () => {
     modalContainer.style.display = 'block'; 
-    afficherToutesLesImages();
+    afficherToutesLesImagesModal();
 });
 
 // Ouvrir le modal au clic sur Edition-banner
 editionBanner.addEventListener('click',() => {
   modalContainer.style.display = 'block'; 
-    afficherToutesLesImages();
+    afficherToutesLesImagesModal();
 });
 
 
