@@ -5,6 +5,7 @@
 
 body{
 	background-color: #FFFEF8;
+	
 }
 
 html, body, div, span, applet, object, iframe,
@@ -51,7 +52,7 @@ table {
 	border-spacing: 0;
 }
 /** end reset css**/
-body {
+header, main {
 	max-width: 1140px;
 	margin: auto;
 	font-family: 'Work Sans' ;
@@ -60,7 +61,7 @@ body {
 header {
 	display: flex;
 	justify-content: space-between;
-	margin: 50px 0;
+	margin: 50px auto;
 }
 section {
 	margin: 50px 0;
@@ -110,7 +111,6 @@ li:hover {
 
 #introduction {
 	display: flex;
-	
 	align-items: center;
 }
 #introduction figure {
@@ -302,12 +302,15 @@ align-items: center;
 	cursor: pointer;
 	display: flex;
 	justify-content: center;
+	top: 0;
+	left: 0;
 }
 
 .edition{
 	display: flex;
 	justify-content: center;
 	padding-top: 20px;
+	width: 100%;
 }
 
 .edition-text{
